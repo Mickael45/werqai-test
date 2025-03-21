@@ -8,10 +8,10 @@ import { deleteTask, updateTask } from '@/lib/api/task';
 import DeleteConfirmationModal from './Modal/DeleteConfirmationModal';
 
 type Props = TaskType & {
-  refetchAllTasks: VoidFunction;
+  getAllTasks: VoidFunction;
 };
 
-const Task = ({ title, description, status, id, refetchAllTasks }: Props) => {
+const Task = ({ title, description, status, id, getAllTasks }: Props) => {
   const [isEditionModalOpen, setisEditionModalOpen] = useState(false);
   const [isDeleteConfirmationModalOpen, setIsDeleteConfirmationModalOpen] =
     useState(false);
@@ -35,7 +35,7 @@ const Task = ({ title, description, status, id, refetchAllTasks }: Props) => {
       status,
     });
 
-    refetchAllTasks();
+    getAllTasks();
     closeEditionModal();
   };
 
@@ -52,13 +52,13 @@ const Task = ({ title, description, status, id, refetchAllTasks }: Props) => {
       status: newStatus,
     });
 
-    refetchAllTasks();
+    getAllTasks();
   };
 
   const onDeleteTask = async () => {
     await deleteTask(id);
 
-    refetchAllTasks();
+    getAllTasks();
     closeDeleteConfirmationModal();
   };
 
@@ -124,7 +124,7 @@ const Task = ({ title, description, status, id, refetchAllTasks }: Props) => {
         <Portal elementId="popup-root">
           <EditModal
             onClose={closeEditionModal}
-            onUpdate={refetchAllTasks}
+            onUpdate={onUpdateTitleAndDescription}
             id={id}
             description={description}
             title={title}

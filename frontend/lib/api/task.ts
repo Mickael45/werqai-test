@@ -28,12 +28,14 @@ export const updateTask = async (task: TaskType) => {
 
 export const fetchAllTasks = async (
   currentPage: number,
+  order: 'asc' | 'desc',
 ): Promise<{
   tasks: TaskType[];
   pages: number;
 }> => {
+  console.log(order);
   const response = await fetch(
-    `http://localhost:3000/task?page=${currentPage}&limit=2&sortBy=id&order=asc`,
+    `http://localhost:3000/task?page=${currentPage}&limit=2&sortBy=id&order=${order}`,
   );
   const { tasks, pages } = await response.json();
 

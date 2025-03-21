@@ -2,13 +2,13 @@ import { createTask } from '@/lib/api/task';
 import { FormEvent } from 'react';
 
 type Props = {
-  refetchAllTasks: VoidFunction;
+  getAllTasks: VoidFunction;
 };
 
 const TITLE_INPUT_ID = 'title';
 const DESCRIPTION_INPUT_ID = 'description';
 
-const CreateTaskForm = ({ refetchAllTasks }: Props) => {
+const CreateTaskForm = ({ getAllTasks }: Props) => {
   const onCreateTaskClick = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const titleInput = document.getElementById(
@@ -28,7 +28,7 @@ const CreateTaskForm = ({ refetchAllTasks }: Props) => {
 
     titleInput.value = '';
     descriptionInput.value = '';
-    refetchAllTasks();
+    getAllTasks();
   };
   return (
     <form
