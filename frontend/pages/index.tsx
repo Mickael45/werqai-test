@@ -1,4 +1,5 @@
 import CreateTaskForm from '@/components/CreateTaskForm';
+import NumberedPagination from '@/components/NumberedPagination';
 import Task from '@/components/Task';
 import { fetchAllTasks } from '@/lib/api/task';
 import { TaskType } from '@/types/Task';
@@ -6,14 +7,17 @@ import { useEffect, useState } from 'react';
 
 export default function Home() {
   const [tasks, setTasks] = useState<TaskType[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     (async () => {
-      const response = await fetchAllTasks();
+      const { tasks, pages } = await fetchAllTasks(currentPage);
 
-      setTasks(response);
+      setTasks(tasks);
+      setTotalPages(pages);
     })();
-  }, []);
+  }, [currentPage]);
 
   const onCreate = (newTask: TaskType) => setTasks([...tasks, newTask]);
 
@@ -31,6 +35,11 @@ export default function Home() {
         {tasks.map((task) => (
           <Task key={task.id} onUpdate={onUpdate} {...task} />
         ))}
+        <NumberedPagination
+          totalPages={totalPages}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+        />
       </main>
     </div>
   );

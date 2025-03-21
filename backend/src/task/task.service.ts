@@ -6,18 +6,37 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class TaskService {
   constructor(private prisma: PrismaService) {}
-  
+
   async create(createTaskDto: CreateTaskDto) {
     return this.prisma.task.create({
       data: createTaskDto,
     });
   }
 
-  async findAll() {    
-    const items = await this.prisma.task.findMany()
+  async findAll(params: {
+    page: number;
+    limit: number;
+    sortBy: string;
+    order: 'asc' | 'desc';
+  }) {
+    const { page, limit, sortBy, order } = params;
+    const skip = (page - 1) * limit;
 
-    return items;
+    const [tasks, total] = await Promise.all([
+      this.prisma.task.findMany({
+        skip,
+        take: limit,
+        orderBy: { [sortBy]: order },
+      }),
+      this.prisma.task.count(),
+    ]);
+
+    return {
+      tasks,
+      pages: Math.ceil(total / limit),
+    };
   }
+
   findOne(id: number) {
     return `This action returns a #${id} task`;
   }
