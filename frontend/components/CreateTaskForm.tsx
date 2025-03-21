@@ -11,11 +11,14 @@ const DESCRIPTION_INPUT_ID = 'description';
 const CreateTaskForm = ({ refetchAllTasks }: Props) => {
   const onCreateTaskClick = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const title = (document.getElementById(TITLE_INPUT_ID) as HTMLInputElement)
-      .value;
-    const description = (
-      document.getElementById(DESCRIPTION_INPUT_ID) as HTMLInputElement
-    ).value;
+    const titleInput = document.getElementById(
+      TITLE_INPUT_ID,
+    ) as HTMLInputElement;
+    const descriptionInput = document.getElementById(
+      DESCRIPTION_INPUT_ID,
+    ) as HTMLInputElement;
+    const title = titleInput.value;
+    const description = descriptionInput.value;
 
     if (!title || !description) {
       return;
@@ -23,6 +26,8 @@ const CreateTaskForm = ({ refetchAllTasks }: Props) => {
 
     await createTask(title, description);
 
+    titleInput.value = '';
+    descriptionInput.value = '';
     refetchAllTasks();
   };
   return (
