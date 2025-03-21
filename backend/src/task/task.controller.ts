@@ -13,6 +13,7 @@ import {
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { Status } from '@prisma/client';
 
 @Controller('task')
 export class TaskController {
@@ -29,12 +30,14 @@ export class TaskController {
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
     @Query('sortBy') sortBy: string = 'createdAt',
     @Query('order') order: 'asc' | 'desc' = 'desc',
+    @Query('statusFilter') statusFilter: Status | 'ALL' = 'ALL',
   ) {
     return this.taskService.findAll({
       page,
       limit,
       sortBy,
       order,
+      statusFilter,
     });
   }
 

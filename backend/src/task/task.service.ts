@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { Status } from '@prisma/client';
 
 @Injectable()
 export class TaskService {
@@ -18,18 +19,27 @@ export class TaskService {
     limit: number;
     sortBy: string;
     order: 'asc' | 'desc';
+    statusFilter: Status | 'ALL';
   }) {
-    const { page, limit, sortBy, order } = params;
+    const { page, limit, sortBy, order, statusFilter } = params;
     const skip = (page - 1) * limit;
 
     const [tasks, total] = await Promise.all([
       this.prisma.task.findMany({
-        where: { deletedAt: null },
+        where: {
+          deletedAt: null,
+          status: statusFilter === 'ALL' ? undefined : statusFilter,
+        },
         skip,
         take: limit,
         orderBy: { [sortBy]: order },
       }),
-      this.prisma.task.count({ where: { deletedAt: null } }),
+      this.prisma.task.count({
+        where: {
+          deletedAt: null,
+          status: statusFilter === 'ALL' ? undefined : statusFilter,
+        },
+      }),
     ]);
 
     return {

@@ -1,4 +1,4 @@
-import { TaskType } from '@/types/Task';
+import { Status, TaskType } from '@/types/Task';
 
 export const createTask = async (title: string, description: string) => {
   const response = await fetch('http://localhost:3000/task', {
@@ -29,13 +29,14 @@ export const updateTask = async (task: TaskType) => {
 export const fetchAllTasks = async (
   currentPage: number,
   order: 'asc' | 'desc',
+  statusFilter: 'ALL' | Status,
 ): Promise<{
   tasks: TaskType[];
   pages: number;
 }> => {
   console.log(order);
   const response = await fetch(
-    `http://localhost:3000/task?page=${currentPage}&limit=2&sortBy=id&order=${order}`,
+    `http://localhost:3000/task?page=${currentPage}&limit=2&sortBy=id&order=${order}&statusFilter=${statusFilter}`,
   );
   const { tasks, pages } = await response.json();
 
