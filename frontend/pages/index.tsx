@@ -23,16 +23,14 @@ export default function Home() {
     );
 
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <h1 className="text-xl font-bold w-full text-center">Task Manager</h1>
+    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 w-full">
+      <main className="flex flex-col gap-[32px] w-full row-start-2 items-center justify-items-centerr sm:items-start  max-w-7xl">
+        <h1 className="text-3xl font-bold w-full text-center">Task Manager</h1>
         <CreateTaskForm onCreate={onCreate} />
         <hr className="mb-5 border-gray-300 w-full" />
-        <div>
-          {tasks.map((task) => (
-            <Task key={task.id} onUpdate={onUpdate} {...task} />
-          ))}
-        </div>
+        {tasks.map((task) => (
+          <Task key={task.id} onUpdate={onUpdate} {...task} />
+        ))}
       </main>
     </div>
   );

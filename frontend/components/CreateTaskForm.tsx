@@ -31,7 +31,7 @@ const CreateTaskForm = ({ onCreate }: Props) => {
       onSubmit={onCreateTaskClick}
       className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full"
     >
-      <h2 className="text-lg font-bold mb-5 text-center">Create Task</h2>
+      <h2 className="text-2xl font-bold mb-5 text-center">Create Task</h2>
       <div className="grid gap-3">
         <label htmlFor={TITLE_INPUT_ID} className="text-lg">
           Title
@@ -57,7 +57,7 @@ const CreateTaskForm = ({ onCreate }: Props) => {
       <hr className="my-5 border border-t-0 border-gray-300 w-full " />
       <button
         type="submit"
-        className="bg-blue-300 text-white font-bold py-2 px-4 rounded hover:cursor-pointer"
+        className="bg-blue-300 text-white font-bold py-2 px-4 rounded hover:cursor-pointer w-full"
       >
         Create
       </button>

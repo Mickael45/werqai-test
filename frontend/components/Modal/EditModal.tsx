@@ -32,7 +32,7 @@ function EditModal({ onClose, onUpdate, title, description }: Props) {
 
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black/50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 w-1/2 max-w-md rounded-md shadow-md relative">
+      <div className="bg-white p-6 w-3/4 max-w-md rounded-md shadow-md relative">
         <button
           onClick={onClose}
           className="absolute top-2 right-2 bg-transparent border-none text-gray-600 hover:text-gray-800 cursor-pointer text-lg"
@@ -52,7 +52,7 @@ function EditModal({ onClose, onUpdate, title, description }: Props) {
             />
           </svg>
         </button>
-        <h2 className="text-lg font-bold text-center mb-4">Update Task</h2>
+        <h2 className="text-2xl font-bold text-center mb-4">Update Task</h2>
         <div className="grid gap-3">
           <label htmlFor={TITLE_INPUT_ID} className="text-lg">
             Title

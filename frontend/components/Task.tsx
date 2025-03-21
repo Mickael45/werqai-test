@@ -47,10 +47,13 @@ const Task = ({ title, description, status, id, onUpdate }: Props) => {
   };
 
   return (
-    <div id={id} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <div
+      id={id}
+      className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full"
+    >
       <div className="hover:cursor-pointer" onClick={openPopup}>
-        <h2 className="text-xl mb-5">{title}</h2>
-        <p className="mb-5">{description}</p>
+        <h2 className="text-2xl mb-5">{title}</h2>
+        <p className="text-base mb-5">{description}</p>
       </div>
 
       <hr className="mb-5 border-gray-300" />
