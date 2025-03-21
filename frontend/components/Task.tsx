@@ -4,30 +4,39 @@ import Portal from './Modal/Portal';
 import { Status, TaskType } from '@/types/Task';
 import { COMPLETED, IN_PROGRESS, PENDING } from '@/constants';
 import { mapStatusToColor, mapStatusToLabel } from '@/utils/statusMappers';
-import { updateTask } from '@/lib/api/task';
+import { deleteTask, updateTask } from '@/lib/api/task';
+import DeleteConfirmationModal from './Modal/DeleteConfirmationModal';
 
 type Props = TaskType & {
-  onUpdate: (task: TaskType) => void;
+  refetchAllTasks: VoidFunction;
 };
 
-const Task = ({ title, description, status, id, onUpdate }: Props) => {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
+const Task = ({ title, description, status, id, refetchAllTasks }: Props) => {
+  const [isEditionModalOpen, setisEditionModalOpen] = useState(false);
+  const [isDeleteConfirmationModalOpen, setIsDeleteConfirmationModalOpen] =
+    useState(false);
 
-  const openPopup = () => setIsPopupOpen(true);
-  const closePopup = () => setIsPopupOpen(false);
+  const openDeleteConfirmationModal = () =>
+    setIsDeleteConfirmationModalOpen(true);
+  const closeDeleteConfirmationModal = () =>
+    setIsDeleteConfirmationModalOpen(false);
+
+  const openEditionModal = () => setisEditionModalOpen(true);
+  const closeEditionModal = () => setisEditionModalOpen(false);
 
   const onUpdateTitleAndDescription = async (
     updatedDescription: string,
     updatedTitle: string,
   ) => {
-    const updatedTask = await updateTask({
+    await updateTask({
       id,
       description: updatedDescription,
       title: updatedTitle,
       status,
     });
 
-    onUpdate(updatedTask);
+    refetchAllTasks();
+    closeEditionModal();
   };
 
   const onUpdateStatus = async (e: MouseEvent<HTMLButtonElement>) => {
@@ -36,14 +45,21 @@ const Task = ({ title, description, status, id, onUpdate }: Props) => {
     if (!newStatus) {
       return;
     }
-    const updatedTask = await updateTask({
+    await updateTask({
       id,
       description,
       title,
       status: newStatus,
     });
 
-    onUpdate(updatedTask);
+    refetchAllTasks();
+  };
+
+  const onDeleteTask = async () => {
+    await deleteTask(id);
+
+    refetchAllTasks();
+    closeDeleteConfirmationModal();
   };
 
   return (
@@ -51,9 +67,33 @@ const Task = ({ title, description, status, id, onUpdate }: Props) => {
       id={id}
       className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full"
     >
-      <div className="hover:cursor-pointer" onClick={openPopup}>
-        <h2 className="text-2xl mb-5">{title}</h2>
-        <p className="text-base mb-5">{description}</p>
+      <div>
+        <div className="flex justify-between items-start">
+          <div
+            onClick={openEditionModal}
+            className="w-full hover:cursor-pointer"
+          >
+            <h2 className="text-2xl mb-5 col-span-11 w-full">{title}</h2>
+            <p className="text-base mb-5">{description}</p>
+          </div>
+          <button
+            className="justify-self-end hover:cursor-pointer"
+            onClick={openDeleteConfirmationModal}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="red"
+              className="size-5"
+            >
+              <path
+                fillRule="evenodd"
+                d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
 
       <hr className="mb-5 border-gray-300" />
@@ -80,14 +120,22 @@ const Task = ({ title, description, status, id, onUpdate }: Props) => {
           {mapStatusToLabel[COMPLETED]}
         </button>
       </div>
-      {isPopupOpen && (
+      {isEditionModalOpen && (
         <Portal elementId="popup-root">
           <EditModal
-            onClose={closePopup}
-            onUpdate={onUpdateTitleAndDescription}
+            onClose={closeEditionModal}
+            onUpdate={refetchAllTasks}
             id={id}
             description={description}
             title={title}
+          />
+        </Portal>
+      )}
+      {isDeleteConfirmationModalOpen && (
+        <Portal elementId="popup-root">
+          <DeleteConfirmationModal
+            onClose={closeDeleteConfirmationModal}
+            onDelete={onDeleteTask}
           />
         </Portal>
       )}

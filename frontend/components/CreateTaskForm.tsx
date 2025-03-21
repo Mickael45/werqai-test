@@ -1,15 +1,14 @@
 import { createTask } from '@/lib/api/task';
-import { TaskType } from '@/types/Task';
 import { FormEvent } from 'react';
 
 type Props = {
-  onCreate: (task: TaskType) => void;
+  refetchAllTasks: VoidFunction;
 };
 
 const TITLE_INPUT_ID = 'title';
 const DESCRIPTION_INPUT_ID = 'description';
 
-const CreateTaskForm = ({ onCreate }: Props) => {
+const CreateTaskForm = ({ refetchAllTasks }: Props) => {
   const onCreateTaskClick = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const title = (document.getElementById(TITLE_INPUT_ID) as HTMLInputElement)
@@ -22,9 +21,9 @@ const CreateTaskForm = ({ onCreate }: Props) => {
       return;
     }
 
-    const newTask = await createTask(title, description);
+    await createTask(title, description);
 
-    onCreate(newTask);
+    refetchAllTasks();
   };
   return (
     <form

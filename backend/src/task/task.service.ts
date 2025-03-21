@@ -24,11 +24,12 @@ export class TaskService {
 
     const [tasks, total] = await Promise.all([
       this.prisma.task.findMany({
+        where: { deletedAt: null },
         skip,
         take: limit,
         orderBy: { [sortBy]: order },
       }),
-      this.prisma.task.count(),
+      this.prisma.task.count({ where: { deletedAt: null } }),
     ]);
 
     return {
@@ -56,7 +57,10 @@ export class TaskService {
     });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} task`;
+  remove(id: string) {
+    return this.prisma.task.update({
+      where: { id },
+      data: { deletedAt: new Date() },
+    });
   }
 }

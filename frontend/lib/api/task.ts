@@ -39,3 +39,16 @@ export const fetchAllTasks = async (
 
   return { tasks, pages };
 };
+
+export const deleteTask = async (id: string): Promise<string> => {
+  const response = await fetch(`http://localhost:3000/task/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  const { id: deletedTaskId } = await response.json();
+
+  return deletedTaskId;
+};
