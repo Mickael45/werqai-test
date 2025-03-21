@@ -34,7 +34,6 @@ export const fetchAllTasks = async (
   tasks: TaskType[];
   pages: number;
 }> => {
-  console.log(order);
   const response = await fetch(
     `http://localhost:3000/task?page=${currentPage}&limit=2&sortBy=id&order=${order}&statusFilter=${statusFilter}`,
   );
