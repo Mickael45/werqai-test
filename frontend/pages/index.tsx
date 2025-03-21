@@ -1,6 +1,7 @@
 import CreateTaskForm from '@/components/CreateTaskForm';
-import FilterAndSort from '@/components/FilterAndSort';
+import SortSelect from '@/components/SortSelect';
 import NumberedPagination from '@/components/NumberedPagination';
+import FilterSelect from '@/components/FilterSelect';
 import Task from '@/components/Task';
 import { fetchAllTasks } from '@/lib/api/task';
 import { SortAndOrder, Sorting } from '@/types/Sorting';
@@ -35,9 +36,8 @@ export default function Home() {
     setTotalPages(pages);
   };
 
-  const onSortChange = (e: ChangeEvent<HTMLSelectElement>) => {
+  const onSortChange = (e: ChangeEvent<HTMLSelectElement>) =>
     setSorting(mapSortTypeToSortAndOrder[e.target.value as Sorting]);
-  };
 
   const onFilterChange = (e: ChangeEvent<HTMLSelectElement>) =>
     setStatusFilter(e.target.value as Status);
@@ -51,12 +51,17 @@ export default function Home() {
         <h1 className="text-3xl font-bold w-full text-center">Task Manager</h1>
         <CreateTaskForm getAllTasks={getAllTasks} />
         <hr className="mb-5 border-gray-300 w-full" />
-        <FilterAndSort
-          onSortChange={onSortChange}
-          searchTerm={searchTerm}
-          onSearch={onSearch}
-          onFilterChange={onFilterChange}
-        />
+        <div className="w-full flex justify-between">
+          <SortSelect onSortChange={onSortChange} />
+          <FilterSelect onFilterChange={onFilterChange} />
+          <input
+            type="text"
+            placeholder="Search"
+            onChange={onSearch}
+            value={searchTerm}
+            className="w-1/4 p-2 rounded-md border border-gray-300"
+          />
+        </div>
         {tasks && tasks.length > 0
           ? tasks.map((task) => (
               <Task key={task.id} getAllTasks={getAllTasks} {...task} />
