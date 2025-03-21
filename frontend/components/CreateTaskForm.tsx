@@ -61,7 +61,7 @@ const CreateTaskForm = ({ getAllTasks }: Props) => {
       <hr className="my-5 border border-t-0 border-gray-300 w-full " />
       <button
         type="submit"
-        className="bg-blue-300 text-white font-bold py-2 px-4 rounded hover:cursor-pointer w-full"
+        className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:cursor-pointer w-full"
       >
         Create
       </button>

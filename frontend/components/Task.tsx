@@ -1,6 +1,5 @@
 import { useState, MouseEvent } from 'react';
 import EditModal from './Modal/EditModal';
-import Portal from './Modal/Portal';
 import { Status, TaskType } from '@/types/Task';
 import { COMPLETED, IN_PROGRESS, PENDING } from '@/constants';
 import { mapStatusToColor, mapStatusToLabel } from '@/utils/statusMappers';
@@ -145,28 +144,22 @@ const Task = ({ title, description, status, id, getAllTasks }: Props) => {
         </button>
       </div>
       {isEditionModalOpen && (
-        <Portal elementId="popup-root">
-          <EditModal
-            onClose={closeEditionModal}
-            onUpdate={onUpdateTitleAndDescription}
-            id={id}
-            description={description}
-            title={title}
-          />
-        </Portal>
+        <EditModal
+          onClose={closeEditionModal}
+          onUpdate={onUpdateTitleAndDescription}
+          id={id}
+          description={description}
+          title={title}
+        />
       )}
       {isDeleteConfirmationModalOpen && (
-        <Portal elementId="popup-root">
-          <DeleteConfirmationModal
-            onClose={closeDeleteConfirmationModal}
-            onDelete={onDeleteTask}
-          />
-        </Portal>
+        <DeleteConfirmationModal
+          onClose={closeDeleteConfirmationModal}
+          onDelete={onDeleteTask}
+        />
       )}
       {isHistoryModalOpen && (
-        <Portal elementId="popup-root">
-          <HistoryModal onClose={closeHistoryModal} id={id} />
-        </Portal>
+        <HistoryModal onClose={closeHistoryModal} id={id} />
       )}
     </div>
   );

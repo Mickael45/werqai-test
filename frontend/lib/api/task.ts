@@ -31,12 +31,13 @@ export const fetchAllTasks = async (
   currentPage: number,
   { sort, order }: SortAndOrder,
   statusFilter: 'ALL' | Status,
+  searchTerm: string,
 ): Promise<{
   tasks: TaskType[];
   pages: number;
 }> => {
   const response = await fetch(
-    `http://localhost:3000/task?page=${currentPage}&limit=2&sortBy=${sort}&order=${order}&statusFilter=${statusFilter}`,
+    `http://localhost:3000/task?page=${currentPage}&limit=2&sortBy=${sort}&order=${order}&statusFilter=${statusFilter}&searchTerm=${searchTerm}`,
   );
   const { tasks, pages } = await response.json();
 

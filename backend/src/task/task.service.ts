@@ -20,25 +20,28 @@ export class TaskService {
     sortBy: string;
     order: 'asc' | 'desc';
     statusFilter: Status | 'ALL';
+    searchTerm: string;
   }) {
-    const { page, limit, sortBy, order, statusFilter } = params;
+    const { page, limit, sortBy, order, statusFilter, searchTerm } = params;
     const skip = (page - 1) * limit;
+    const where = {
+      deletedAt: null,
+      status: statusFilter === 'ALL' ? undefined : statusFilter,
+      OR: [
+        { title: { contains: searchTerm } },
+        { description: { contains: searchTerm } },
+      ],
+    };
 
     const [tasks, total] = await Promise.all([
       this.prisma.task.findMany({
-        where: {
-          deletedAt: null,
-          status: statusFilter === 'ALL' ? undefined : statusFilter,
-        },
+        where,
         skip,
         take: limit,
         orderBy: { [sortBy]: order },
       }),
       this.prisma.task.count({
-        where: {
-          deletedAt: null,
-          status: statusFilter === 'ALL' ? undefined : statusFilter,
-        },
+        where,
       }),
     ]);
 

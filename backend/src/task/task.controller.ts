@@ -31,6 +31,7 @@ export class TaskController {
     @Query('sortBy') sortBy: 'createdAt' | 'updatedAt' | 'title' = 'title',
     @Query('order') order: 'asc' | 'desc' = 'desc',
     @Query('statusFilter') statusFilter: Status | 'ALL' = 'ALL',
+    @Query('searchTerm') searchTerm: string,
   ) {
     return this.taskService.findAll({
       page,
@@ -38,6 +39,7 @@ export class TaskController {
       sortBy,
       order,
       statusFilter,
+      searchTerm,
     });
   }
 
