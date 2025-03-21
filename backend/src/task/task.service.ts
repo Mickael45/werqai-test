@@ -61,6 +61,17 @@ export class TaskService {
       throw new NotFoundException(`Task with ID ${id} not found`);
     }
 
+    if (updateTaskDto.status && updateTaskDto.status !== currentTask.status) {
+      await this.prisma.taskHistory.create({
+        data: {
+          taskId: id,
+          previousStatus: currentTask.status,
+          reason: `Changed from ${currentTask.status} to ${updateTaskDto.status}`,
+          newStatus: updateTaskDto.status as Status,
+        },
+      });
+    }
+
     return this.prisma.task.update({
       where: { id },
       data: updateTaskDto,

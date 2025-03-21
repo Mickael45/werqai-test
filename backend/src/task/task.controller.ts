@@ -28,7 +28,7 @@ export class TaskController {
   findAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
-    @Query('sortBy') sortBy: string = 'createdAt',
+    @Query('sortBy') sortBy: 'createdAt' | 'updatedAt' | 'title' = 'title',
     @Query('order') order: 'asc' | 'desc' = 'desc',
     @Query('statusFilter') statusFilter: Status | 'ALL' = 'ALL',
   ) {

@@ -1,4 +1,4 @@
-import { Status, TaskType } from '@/types/Task';
+import { Status, TaskHistoryType, TaskType } from '@/types/Task';
 
 export const createTask = async (title: string, description: string) => {
   const response = await fetch('http://localhost:3000/task', {
@@ -49,8 +49,18 @@ export const deleteTask = async (id: string): Promise<string> => {
       'Content-Type': 'application/json',
     },
   });
-
   const { id: deletedTaskId } = await response.json();
 
   return deletedTaskId;
+};
+
+export const fetchTaskHistoryByTaskId = async (
+  taskId: string,
+): Promise<TaskHistoryType[]> => {
+  const response = await fetch(
+    `http://localhost:3000/task-history?taskId=${taskId}`,
+  );
+  const { taskHistoryItems } = await response.json();
+
+  return taskHistoryItems as TaskHistoryType[];
 };
