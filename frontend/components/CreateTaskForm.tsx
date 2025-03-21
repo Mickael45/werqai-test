@@ -1,13 +1,13 @@
-import { createTask } from "@/lib/api/task";
-import { TaskType } from "@/types/Task";
-import { FormEvent } from "react";
+import { createTask } from '@/lib/api/task';
+import { TaskType } from '@/types/Task';
+import { FormEvent } from 'react';
 
 type Props = {
   onCreate: (task: TaskType) => void;
 };
 
-const TITLE_INPUT_ID = "title";
-const DESCRIPTION_INPUT_ID = "description";
+const TITLE_INPUT_ID = 'title';
+const DESCRIPTION_INPUT_ID = 'description';
 
 const CreateTaskForm = ({ onCreate }: Props) => {
   const onCreateTaskClick = async (e: FormEvent<HTMLFormElement>) => {
@@ -31,8 +31,11 @@ const CreateTaskForm = ({ onCreate }: Props) => {
       onSubmit={onCreateTaskClick}
       className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 w-full"
     >
-      <h2 className="text-xl mb-5">Create Task</h2>
+      <h2 className="text-lg font-bold mb-5 text-center">Create Task</h2>
       <div className="grid gap-3">
+        <label htmlFor={TITLE_INPUT_ID} className="text-lg">
+          Title
+        </label>
         <input
           id={TITLE_INPUT_ID}
           required
@@ -40,6 +43,9 @@ const CreateTaskForm = ({ onCreate }: Props) => {
           placeholder="Title"
           className="block w-full rounded-md border shadow-sm p-3 focus:border-blue-300 text-gray-800 placeholder-gray-500 focus:ring-blue-300 text-lg"
         />
+        <label htmlFor={DESCRIPTION_INPUT_ID} className="text-lg">
+          Description
+        </label>
         <input
           id={DESCRIPTION_INPUT_ID}
           required
@@ -51,7 +57,7 @@ const CreateTaskForm = ({ onCreate }: Props) => {
       <hr className="my-5 border border-t-0 border-gray-300 w-full " />
       <button
         type="submit"
-        className="bg-blue-300 text-white font-bold py-2 px-4 rounded"
+        className="bg-blue-300 text-white font-bold py-2 px-4 rounded hover:cursor-pointer"
       >
         Create
       </button>
