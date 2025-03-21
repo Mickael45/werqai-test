@@ -1,3 +1,4 @@
+import { SortAndOrder } from '@/types/Sorting';
 import { Status, TaskHistoryType, TaskType } from '@/types/Task';
 
 export const createTask = async (title: string, description: string) => {
@@ -28,14 +29,14 @@ export const updateTask = async (task: TaskType) => {
 
 export const fetchAllTasks = async (
   currentPage: number,
-  order: 'asc' | 'desc',
+  { sort, order }: SortAndOrder,
   statusFilter: 'ALL' | Status,
 ): Promise<{
   tasks: TaskType[];
   pages: number;
 }> => {
   const response = await fetch(
-    `http://localhost:3000/task?page=${currentPage}&limit=2&sortBy=id&order=${order}&statusFilter=${statusFilter}`,
+    `http://localhost:3000/task?page=${currentPage}&limit=2&sortBy=${sort}&order=${order}&statusFilter=${statusFilter}`,
   );
   const { tasks, pages } = await response.json();
 
