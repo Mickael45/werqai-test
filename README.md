@@ -59,3 +59,13 @@ cd frontend
 yarn install
 yarn dev
 ```
+
+## How to check the full version:
+
+Go to the full branch
+
+```
+git checkout full
+```
+
+**Make sure to run the migrations to have the updated schemas**
