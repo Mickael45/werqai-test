@@ -68,4 +68,22 @@ Go to the full branch
 git checkout full
 ```
 
-**Make sure to run the migrations to have the updated schemas**
+Run the migrations
+
+```
+npx prisma migrate dev
+```
+
+Rerun the server first
+
+```
+yarn start
+```
+
+Then the client
+
+```
+yarn dev
+```
+
+You should be all set, don't hesitate to ping me if you have any issues
